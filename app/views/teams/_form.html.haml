@@ -1,0 +1,18 @@
+.container.row.form
+  %p チームの作成
+  .col-lg-8
+    = form_for @team do |f|
+      = f.text_field :name, placeholder: 'チーム名を入力して下さい', cols: '30', rows: '10', autofocus: 'true', class: 'form-control', required: true
+      = f.text_area :description, placeholder: 'チーム紹介をして下さい', autofocus: 'true', class: 'form-control', required: true
+      #team_members_box
+        %p メンバー
+        = f.fields_for :members do |m|
+          .js-team_member{ id: "add_member_#{m.index}" }
+            = m.text_field :name, placeholder: 'メンバーの名前を入力して下さい', class: 'form-control', required: true
+            = m.text_field :grade, placeholder: 'メンバーの学年を入力して下さい', class: 'form-control', required: true
+            = m.check_box:_destroy
+            %span.member_delete{ data: { id: m.index, default: 'default' } }
+              Delete
+      %p#add_item_button 追加する
+      = f.submit '作成する', class: 'btn btn-primary'
+  = link_to '一覧に戻る', root_path
